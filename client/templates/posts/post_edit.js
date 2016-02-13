@@ -14,15 +14,20 @@ Template.postEdit.events({
 			return;
 		}
 
+		var errors = validatePost(postProperties); 
+		if (Object.keys(errors).length > 0) {
+			return Session.set('postEditErrors', errors);
+		}
+
 		Posts.update(currentPostId, {$set: postProperties}, function(error) { 
 			if (error) {
 	        // display the error to the user
 	        throwError(error.reason); 
-	    	} 
-	    	else {
-	        	Router.go('postPage', {_id: currentPostId});
-	        }
-	    });
+	    } 
+	    else {
+	    	Router.go('postPage', {_id: currentPostId});
+	    }
+	});
 	},
 
 	'click .delete': function(e) { e.preventDefault();
@@ -32,4 +37,17 @@ Template.postEdit.events({
 			Router.go('postsList');
 		}
 	}
+});
+
+Template.postEdit.onCreated(function() { 
+	Session.set('postEditErrors', {});
+});
+
+Template.postEdit.helpers({ 
+	errorMessage: function(field) {
+		return Session.get('postEditErrors')[field]; 
+	},
+	errorClass: function (field) {
+		return !!Session.get('postEditErrors')[field] ? 'has-error' : '';
+	} 
 });
