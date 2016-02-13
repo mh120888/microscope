@@ -3,3 +3,10 @@ Template.errors.helpers({
 		return Errors.find();
 	}
 });
+
+Template.error.onRendered(function() {
+	var error = this.data;
+	Meteor.setTimeout(function () {
+		Errors.remove(this._id);
+	}, 3000);
+});
