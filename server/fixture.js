@@ -1,18 +1,18 @@
 // Fixture data
 if (Posts.find().count() === 0) {
-  var now = new Date().getTime();
+    var now = new Date().getTime();
 
-  // create two users
-  var tomId = Meteor.users.insert({
+// create two users
+var tomId = Meteor.users.insert({
     profile: { name: 'Tom Coleman' }
 });
-  var tom = Meteor.users.findOne(tomId);
-  var sachaId = Meteor.users.insert({
+var tom = Meteor.users.findOne(tomId);
+var sachaId = Meteor.users.insert({
     profile: { name: 'Sacha Greif' }
 });
-  var sacha = Meteor.users.findOne(sachaId);
+var sacha = Meteor.users.findOne(sachaId);
 
-  var telescopeId = Posts.insert({
+var telescopeId = Posts.insert({
     title: 'Introducing Telescope',
     userId: sacha._id,
     author: sacha.profile.name,
@@ -21,7 +21,7 @@ if (Posts.find().count() === 0) {
     commentsCount: 2
 });
 
-  Comments.insert({
+Comments.insert({
     postId: telescopeId,
     userId: tom._id,
     author: tom.profile.name,
@@ -29,7 +29,7 @@ if (Posts.find().count() === 0) {
     body: 'Interesting project Sacha, can I get involved?'
 });
 
-  Comments.insert({
+Comments.insert({
     postId: telescopeId,
     userId: sacha._id,
     author: sacha.profile.name,
@@ -37,7 +37,7 @@ if (Posts.find().count() === 0) {
     body: 'You sure can Tom!'
 });
 
-  Posts.insert({
+Posts.insert({
     title: 'Meteor',
     userId: tom._id,
     author: tom.profile.name,
@@ -46,7 +46,7 @@ if (Posts.find().count() === 0) {
     commentsCount: 0
 });
 
-  Posts.insert({
+Posts.insert({
     title: 'The Meteor Book',
     userId: tom._id,
     author: tom.profile.name,
@@ -54,4 +54,15 @@ if (Posts.find().count() === 0) {
     submitted: new Date(now - 12 * 3600 * 1000),
     commentsCount: 0
 });
+
+for (var i = 0; i < 10; i++) {
+    Posts.insert({
+        title: 'Test post #' + i,
+        author: sacha.profile.name,
+        userId: sacha._id,
+        url: 'http://google.com/?q=test-' + i,
+        submitted: new Date(now - i * 3600 * 1000),
+        commentsCount: 0
+    });
+}
 }
