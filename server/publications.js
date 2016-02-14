@@ -7,3 +7,7 @@ Meteor.publish('allPosts', function() {
         date: false
     }});
 });
+
+Meteor.publish('comments', function() { 
+	return Comments.find();
+});
